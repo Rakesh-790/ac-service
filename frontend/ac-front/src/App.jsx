@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Register from './components/auth/SignUp.jsx'
 import Login from './components/auth/Login.jsx'
 import { View } from './components/viewService/View.jsx'
+import AdminRoutes from './routes/AdminRoutes.jsx'
+import CoustmerRoutes from './routes/CoustmerRoutes.jsx'
 
 
 function App() {
