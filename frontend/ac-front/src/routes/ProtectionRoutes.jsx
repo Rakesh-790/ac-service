@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { StoreContext } from "../context/StoreContext";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user } = useContext(StoreContext);
+  const { token, role } = useContext(StoreContext);
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!token) return <Navigate to="/login" replace />;
 
-  if (!allowedRoles.includes(user.role)) {
+  if (!allowedRoles.includes(role)) {
     return <Navigate to="/" replace />;
   }
 

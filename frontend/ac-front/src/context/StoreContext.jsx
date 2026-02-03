@@ -6,7 +6,7 @@ export const StoreContext = createContext(null);
 export const StoreContextProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [role, setRole] = useState("");
-    
+
 
   // Step 1: Decode token and set role
   useEffect(() => {
@@ -24,11 +24,19 @@ export const StoreContextProvider = (props) => {
     }
   }, [token]);
 
+  const logout = () => {
+    setToken("");
+    setRole("");
+    localStorage.removeItem("token");
+  };
+
+
   const contextValue = {
     token,
     setToken,
     role,
     setRole,
+    logout,
   };
 
   return (

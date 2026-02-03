@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +10,13 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    const decoded = jwtDecode(token);
     if (token) {
-      setUser({ loggedIn: true });
+      setUser({
+      loggedIn: true,
+      token,
+      role: decoded.role
+    });
     }
   }, []);
 

@@ -14,6 +14,7 @@ import Login from './components/auth/Login.jsx'
 import { View } from './components/viewService/View.jsx'
 import AdminRoutes from './routes/AdminRoutes.jsx'
 import CoustmerRoutes from './routes/CoustmerRoutes.jsx'
+import AdminDashboard from './admin/Dashboard/AdminDashborad.jsx'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         {CoustmerRoutes()}
         {AdminRoutes()}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
 
       {/* Footer */}

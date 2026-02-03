@@ -7,7 +7,6 @@ export const canBookService = (navigate, targetUrl) => {
     toast("Please login first to book a service");
     console.log("BOOKING TOKEN:", localStorage.getItem("accessToken"));
 
-    // navigate("/login");
     return;
   }
 

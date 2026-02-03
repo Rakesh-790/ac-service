@@ -1,14 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import profilePic from "../../assets/photos/profile.png";
+import { StoreContext } from "../../context/StoreContext";
 
 
 function Header() {
-    const navigate = useNavigate();
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
+    
+    const role = user?.role;
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -54,7 +57,7 @@ function Header() {
                                         {user?.role === "ROLE_ADMIN" && (
                                             <button
                                                 onClick={() => {
-                                                    navigate("/AdminDashboard");
+                                                    navigate("/admin/dashboard");
                                                     setOpen(false);
                                                 }}
                                                 className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
