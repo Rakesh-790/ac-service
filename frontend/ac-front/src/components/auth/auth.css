@@ -1,0 +1,76 @@
+/* Page background */
+.register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  display: flex;
+  align-items: center;
+}
+
+/* Card enhancements */
+.register-container .card {
+  border-radius: 16px;
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-container .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Title */
+.register-container .card-title {
+  color: #1f2937;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Floating inputs */
+.register-container .form-control {
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-container .form-control:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 0.15rem rgba(99, 102, 241, 0.25);
+}
+
+/* Labels */
+.register-container .form-floating label {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Submit button */
+.register-container .btn-login {
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  padding: 0.65rem;
+  transition: all 0.2s ease;
+}
+
+.register-container .btn-login:hover {
+  background-color: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
+}
+
+/* Footer text */
+.register-container .mt-4 {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.register-container .mt-4 a {
+  color: #6366f1;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-container .mt-4 a:hover {
+  text-decoration: underline;
+}
