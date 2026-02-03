@@ -1,6 +1,22 @@
+import { Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectionRoutes";
+import AdminDashboard from "../admin/Dashboard/AdminDashborad";
 
-export const AdminRoutes = () => {
+
+const AdminRoutes = () => {
   return (
-    <div>AdminRoutes</div>
-  )
-}
+    <>
+      <Route
+        path="/AdminDashboard"
+        element={
+          <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+    </>
+  );
+};
+
+export default AdminRoutes;
+

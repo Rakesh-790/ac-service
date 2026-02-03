@@ -50,18 +50,34 @@ function Header() {
 
                                 {open && (
                                     <div className="absolute right-0 mt-2 w-32 bg-white rounded shadow-lg z-50">
+                                        {/* ADMIN ONLY */}
+                                        {user?.role === "ROLE_ADMIN" && (
+                                            <button
+                                                onClick={() => {
+                                                    navigate("/AdminDashboard");
+                                                    setOpen(false);
+                                                }}
+                                                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                                            >
+                                                Dashboard
+                                            </button>
+                                        )}
+                                        {/* ALL USERS */}
                                         <button
-                                            onClick={logout}
+                                            onClick={() => {
+                                                logout();
+                                                setOpen(false);
+                                            }}
                                             className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
                                         >
                                             Logout
                                         </button>
+
                                     </div>
                                 )}
                             </div>
                         )}
                     </nav>
-                    
                 </div>
             </header>
         </>

@@ -30,28 +30,8 @@ function App() {
 
       {/* Page Routes */}
       <Routes>
-        {/* Home Page */}
-        <Route
-          path="/" element={
-            <>
-              <Hero />
-              <Choose />
-            </>
-          } />
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        {/* About Page */}
-        <Route path="/about" element={<About />} />
-
-
-        <Route path="/contact" element={<Contact />} />
-
-        <Route path="/service" element={<Service />} />
-
-        <Route path="/view" element={<View />} />
-
+        {CoustmerRoutes()}
+        {AdminRoutes()}
       </Routes>
 
       {/* Footer */}

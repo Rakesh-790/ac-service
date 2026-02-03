@@ -1,55 +1,33 @@
-import { Route, Routes } from "react-router-dom"
-import { ToastContainer } from "react-toastify"
-import Hero from "../../components/heroSection/hero"
-import Choose from "../../components/whyChoose/choose"
-import Login from "../../components/auth/Login"
-import Register from "../../components/auth/SignUp"
-import About from "../../components/aboutUs/about"
-import Contact from "../../components/contactUs/contact"
+import { useEffect } from "react";
 
+const AdminDashboard = () => {
 
-export const AdminDashborad = () => {
-    return (
-        <>
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                pauseOnHover
-            />
-            {/* Navbar */}
-            <Headers />
+  useEffect(() => {
+    // fetch admin-only data here if needed
+  }, []);
 
-            {/* Page Routes */}
-            <Routes>
-                {/* Home Page */}
-                <Route
-                    path="/" element={
-                        <>
-                            <Hero />
-                            <Choose />
-                        </>
-                    } />
+  return (
+    <div className="min-h-screen p-6 bg-gray-100">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="text-lg font-semibold">Total Users</h2>
+          <p className="text-2xl font-bold">120</p>
+        </div>
 
-                {/* About Page */}
-                <Route path="/about" element={<About />} />
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="text-lg font-semibold">Bookings</h2>
+          <p className="text-2xl font-bold">45</p>
+        </div>
 
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="text-lg font-semibold">Revenue</h2>
+          <p className="text-2xl font-bold">₹32,000</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                <Route path="/contact" element={<Contact />} />
-
-                <Route path="/service" element={<Service />} />
-
-                <Route path="/view" element={<View />} />
-
-            </Routes>
-
-            {/* Footer */}
-            <Footer />
-        </>
-    )
-}
+export default AdminDashboard;
