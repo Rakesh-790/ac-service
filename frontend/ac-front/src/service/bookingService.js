@@ -7,3 +7,8 @@ export const createBooking = async (bookingData) => {
   );
   return response.data;
 };
+
+export const getMyBookings = async () => {
+  const response = await axiosClient.get("/bookings/my-bookings");
+  return response.data;
+};
