@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import backend.ac_service.constants.AcCleaningType;
 import backend.ac_service.constants.AcType;
+import backend.ac_service.constants.BookingStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -37,6 +39,10 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     private AcCleaningType cleaningType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BookingStatus status;
 
     private LocalDate date;
     private String time;

@@ -4,12 +4,13 @@ import java.time.LocalDate;
 
 import backend.ac_service.constants.AcCleaningType;
 import backend.ac_service.constants.AcType;
+import backend.ac_service.constants.BookingStatus;
 import backend.ac_service.entity.Booking;
 import lombok.Data;
 
 @Data
 public class BookingResponse {
-    
+
     private AcType acType;
     private AcCleaningType cleaningType;
     private LocalDate date;
@@ -17,6 +18,7 @@ public class BookingResponse {
     private String address;
     private String fullName;
     private String phoneNumber;
+    private BookingStatus status;
 
     public static BookingResponse fromEntity(Booking booking) {
         BookingResponse dto = new BookingResponse();
@@ -27,7 +29,7 @@ public class BookingResponse {
         dto.address = booking.getAddress();
         dto.fullName = booking.getFullName();
         dto.phoneNumber = booking.getPhoneNumber();
+        dto.status = booking.getStatus();
         return dto;
     }
 }
-
