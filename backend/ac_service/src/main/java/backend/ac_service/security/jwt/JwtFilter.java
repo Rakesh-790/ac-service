@@ -41,6 +41,9 @@ public class JwtFilter extends OncePerRequestFilter {
             String username = jwtUtils.getUsername(token);
             String role = jwtUtils.getUserRole(token);
 
+            System.out.println("Extracted role from JWT: " + role);
+
+
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 var authorities = List.of(new SimpleGrantedAuthority(role));
 

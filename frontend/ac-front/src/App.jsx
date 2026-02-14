@@ -29,9 +29,9 @@ function App() {
         {CoustmerRoutes()}
         {AdminRoutes()}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
       </Routes>
 
-      <Route path="/my-bookings" element={<MyBookings />} />
 
       {/* Footer */}
       <Footer />

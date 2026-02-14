@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import profilePic from "../../assets/photos/profile.png";
-import { StoreContext } from "../../context/StoreContext";
 
 
 function Header() {

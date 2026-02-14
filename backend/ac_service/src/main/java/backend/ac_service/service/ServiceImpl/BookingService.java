@@ -64,18 +64,19 @@ public class BookingService implements IBookService {
                 .toList();
     }
 
-    public void updateBookingStatus(String bookingId, BookingStatus newStatus) {
+    public void updateStatus(String bookingId, BookingStatus status) {
 
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        booking.setStatus(newStatus);
+        booking.setStatus(status);
+
         bookingRepository.save(booking);
 
         bookingStatusPublisher.sendBookingUpdate(
-                booking.getBookingId(),
-                booking.getStatus(),
-                "Booking status updated to " + newStatus);
+                bookingId,
+                status,
+                "Your booking status changed to " + status);
     }
 
 }

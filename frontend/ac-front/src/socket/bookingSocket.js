@@ -1,11 +1,11 @@
-import SockJS from "sockjs-client";
+import SockJS from "sockjs-client/dist/sockjs";
 import { Client } from "@stomp/stompjs";
 
 let stompClient = null;
 
 export const connectBookingSocket = (bookingId, onStatusUpdate) => {
   stompClient = new Client({
-    webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+    webSocketFactory: () => new SockJS("http://localhost:1200/ws"),
     reconnectDelay: 5000,
 
     onConnect: () => {

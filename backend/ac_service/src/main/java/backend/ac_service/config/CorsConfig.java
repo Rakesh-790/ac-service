@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration cors = new CorsConfiguration();
 
         cors.setAllowedOriginPatterns(List.of("*"));
-        cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         cors.setExposedHeaders(List.of("Authorization"));
         cors.setAllowCredentials(true);

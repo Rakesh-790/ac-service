@@ -6,14 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.ac_service.constants.BookingStatus;
 import backend.ac_service.dto.BookingRequest;
 import backend.ac_service.dto.BookingResponse;
 import backend.ac_service.service.ServiceImpl.BookingService;
+import backend.ac_service.service.ServiceImpl.BookingStatusPublisher;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,10 +31,9 @@ public class BookingController {
     @GetMapping("/my-bookings")
     public ResponseEntity<List<BookingResponse>> myBookings(Authentication auth) {
 
-        List<BookingResponse> bookings =
-            bookingService.getMyBookings(auth.getName());
+        List<BookingResponse> bookings = bookingService.getMyBookings(auth.getName());
 
-    return ResponseEntity.ok(bookings);
+        return ResponseEntity.ok(bookings);
 
     }
 
@@ -40,10 +44,20 @@ public class BookingController {
 
     @PostMapping("/create-booking")
     public ResponseEntity<String> createBooking(
-        @RequestBody BookingRequest request,
-        Authentication authentication) {
+            @RequestBody BookingRequest request,
+            Authentication authentication) {
 
         bookingService.createBooking(request, authentication.getName());
         return new ResponseEntity<>("Booking created successfully", HttpStatus.CREATED);
     }
+
+    @PatchMapping("/admin/{bookingId}/status")
+    public ResponseEntity<?> updateBookingStatus(
+            @PathVariable String bookingId,
+            @RequestParam BookingStatus status) {
+
+        bookingService.updateStatus(bookingId, status);
+        return ResponseEntity.ok("Status updated");
+    }
+
 }

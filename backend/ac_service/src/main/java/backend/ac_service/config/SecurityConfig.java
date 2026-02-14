@@ -31,11 +31,12 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/bookings/create-booking").permitAll()
                         .requestMatchers(HttpMethod.GET, "/bookings/my-bookings").permitAll()
 
-
-                        .requestMatchers(HttpMethod.GET,"/bookings/all-bookings").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/bookings/all-bookings").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/bookings/admin/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

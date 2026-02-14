@@ -10,20 +10,41 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    const decoded = jwtDecode(token);
-    if (token) {
+
+    if (!token || typeof token !== "string") return;
+
+    try {
+      const decoded = jwtDecode(token);
+
       setUser({
-      loggedIn: true,
-      token,
-      role: decoded.role
-    });
+        loggedIn: true,
+        token,
+        role: decoded.role
+      });
+
+    } catch (error) {
+      console.error("Invalid token:", error);
+      localStorage.removeItem("accessToken");
     }
   }, []);
 
   const login = (token) => {
     localStorage.setItem("accessToken", token);
-    setUser({ loggedIn: true });
+
+    try {
+      const decoded = jwtDecode(token);
+
+      setUser({
+        loggedIn: true,
+        token,
+        role: decoded.role
+      });
+
+    } catch (error) {
+      console.error("Invalid login token");
+    }
   };
+
 
   const logout = () => {
     localStorage.removeItem("accessToken");

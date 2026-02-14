@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class BookingResponse {
 
+    private String bookingId;
     private AcType acType;
     private AcCleaningType cleaningType;
     private LocalDate date;
@@ -22,6 +23,7 @@ public class BookingResponse {
 
     public static BookingResponse fromEntity(Booking booking) {
         BookingResponse dto = new BookingResponse();
+        dto.bookingId = booking.getBookingId();
         dto.acType = booking.getAcType();
         dto.cleaningType = booking.getCleaningType();
         dto.date = booking.getDate();
