@@ -13,28 +13,31 @@ import MyBookings from './components/mybookings/myBooking.jsx'
 function App() {
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-      />
-      {/* Navbar */}
-      <Headers />
+      <div className="h-screen flex flex-col overflow-hidden">
 
-      {/* Page Routes */}
-      <Routes>
-        {CoustmerRoutes()}
-        {AdminRoutes()}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
-      </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+        />
 
+        <Headers />
 
-      {/* Footer */}
-      <Footer />
+        <main className="grow overflow-y-auto">
+          <Routes>
+            {CoustmerRoutes()}
+            {AdminRoutes()}
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/my-bookings" element={<MyBookings />} />
+          </Routes>
+        </main>
+
+        <Footer />
+
+      </div>
     </>
   );
 }

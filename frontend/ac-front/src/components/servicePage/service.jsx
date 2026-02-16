@@ -11,6 +11,8 @@ function Service() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const cleaningTypeFromUrl = searchParams.get("cleaningType");
+    const totalSteps = 4;
+
 
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
@@ -82,12 +84,12 @@ function Service() {
                     <div className="flex items-center justify-between relative">
 
                         {/* Background line */}
-                        <div className="absolute top-5 left-5 right-5 h-1 bg-gray-300"></div>
+                        <div className="absolute top-5 left-5 inset-x-5 h-1 bg-gray-300"></div>
 
                         {/* Active line */}
                         <div
                             className="absolute top-5 left-5 h-1 bg-green-500 transition-all duration-300"
-                            style={{ width: `${((step - 1) / 3) * 100}%` }}
+                            style={{ width: `calc((100% - 2.5rem) * ${(step - 1) / (totalSteps - 1)})` }}
                         ></div>
 
 

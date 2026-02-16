@@ -9,7 +9,7 @@ function Header() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
-    
+
     const role = user?.role;
 
     useEffect(() => {
@@ -31,9 +31,11 @@ function Header() {
                         <img src="https://img.icons8.com/ios-filled/50/000000/air-conditioner.png" alt="logo" className="w-10 h-10 text-white p-2 bg-blue-500 rounded-full" />
                         <span className="ml-3 text-xl">Jai Jagarnath service</span>
                     </a>
-                    <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                    <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
                         <Link to='/' className="mr-5 hover:text-blue-300">Home</Link>
-                        <Link to='/service' className="mr-5 hover:text-blue-300">Services</Link>
+                        {localStorage.getItem("accessToken") && (
+                            <Link to="/my-bookings">My Bookings</Link>
+                        )}
                         <Link to='/about' className="mr-5 hover:text-blue-300">About</Link>
                         {!user ? (
                             // NOT LOGGED IN

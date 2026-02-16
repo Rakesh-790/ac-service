@@ -18,7 +18,6 @@ import backend.ac_service.constants.BookingStatus;
 import backend.ac_service.dto.BookingRequest;
 import backend.ac_service.dto.BookingResponse;
 import backend.ac_service.service.ServiceImpl.BookingService;
-import backend.ac_service.service.ServiceImpl.BookingStatusPublisher;
 import lombok.RequiredArgsConstructor;
 
 @RestController

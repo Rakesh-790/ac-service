@@ -167,6 +167,8 @@ const AdminDashboard = () => {
                   <th className="text-left p-2">AC Type</th>
                   <th className="text-left p-2">Cleaning Type</th>
                   <th className="text-left p-2">Date</th>
+                  <th className="text-left p-2">Address</th>
+                  <th className="text-left p-2">Phone Number</th>
                   <th className="text-left p-2">Status</th>
                 </tr>
               </thead>
@@ -177,6 +179,8 @@ const AdminDashboard = () => {
                     <td className="p-2">{booking.acType}</td>
                     <td className="p-2">{booking.cleaningType}</td>
                     <td className="p-2">{booking.date}</td>
+                    <td className="p-2">{booking.address}</td>
+                    <td className="p-2">{booking.phoneNumber}</td>
                     <td className="p-2">
                       <select
                         value={booking.status}
