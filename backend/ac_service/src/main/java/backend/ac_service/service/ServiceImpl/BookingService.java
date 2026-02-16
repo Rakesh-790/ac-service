@@ -57,7 +57,7 @@ public class BookingService implements IBookService {
 
     @Override
     public List<BookingResponse> getAllBookings() {
-        List<Booking> bookings = bookingRepository.findAll();
+        List<Booking> bookings = bookingRepository.findByStatusNot(BookingStatus.COMPLETED);
 
         return bookings.stream()
                 .map(BookingResponse::fromEntity)

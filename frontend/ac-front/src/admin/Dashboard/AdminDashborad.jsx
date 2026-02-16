@@ -71,14 +71,29 @@ const AdminDashboard = () => {
         }
       );
 
-      setBookings(prevBookings =>
-        prevBookings.map(booking => {
+
+
+      setBookings(prevBookings => {
+        if (!bookingId) {
+          console.error("Booking ID is undefined");
+          return;
+        }
+        
+        // If status becomes COMPLETED → remove it
+        if (newStatus === "COMPLETED") {
+          return prevBookings.filter(
+            booking => booking.bookingId !== bookingId
+          );
+        }
+
+        // Otherwise just update status normally
+        return prevBookings.map(booking => {
           if (booking.bookingId === bookingId) {
             return { ...booking, status: newStatus };
           }
           return booking;
-        })
-      );
+        });
+      });
 
     } catch (error) {
       console.error("Error updating status:", error);
