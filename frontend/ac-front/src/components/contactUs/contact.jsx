@@ -1,4 +1,30 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+
 function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    toast.success("Form submitted successfully!");
+
+    setFormData({
+      name: "",
+      email: "",
+      message: ""
+    });
+  };
+
   return (
     <section className="bg-white">
       {/* Hero */}
@@ -72,6 +98,7 @@ function Contact() {
               <button
                 type="submit"
                 className="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition"
+                onSubmit={handleSubmit}
               >
                 Send Message
               </button>
