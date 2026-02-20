@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,24 +28,28 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String token = null;
 
         try {
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            if (request.getCookies() != null) {
+                for (Cookie cookie : request.getCookies()) {
+                    if ("accessToken".equals(cookie.getName())) {
+                        token = cookie.getValue();
+                    }
+                }
+            }
+
+            if (token == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-
-            String token = authHeader.substring(7);
 
             // Extract username & role
             String username = jwtUtils.getUsername(token);
             String role = jwtUtils.getUserRole(token);
 
-            System.out.println("Extracted role from JWT: " + role);
-
-
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null
+                    && jwtUtils.validateToken(token, username)) {
                 var authorities = List.of(new SimpleGrantedAuthority(role));
 
                 var authentication = new UsernamePasswordAuthenticationToken(
@@ -54,8 +59,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
-            request.setAttribute("username", username);
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
