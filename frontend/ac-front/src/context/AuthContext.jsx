@@ -1,60 +1,59 @@
-import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../service/axiosClient";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loding, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const checkAuth = async () => {
+      try {
+        const data = await axiosClient.get("/auth/me");
+        setUser({
+          loggedIn: true,
+          email: data.email,
+          role: data.role
+        });
 
-    if (!token || typeof token !== "string") return;
-
-    try {
-      const decoded = jwtDecode(token);
-
-      setUser({
-        loggedIn: true,
-        token,
-        role: decoded.role
-      });
-
-    } catch (error) {
-      console.error("Invalid token:", error);
-      localStorage.removeItem("accessToken");
+      } catch (error) {
+        setUser(null);
+        console.error("Invalid token:", error);
+      }
+      finally {
+        setLoading(false);
+      }
     }
+    checkAuth();
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem("accessToken", token);
-
+  const login = async() => {
     try {
-      const decoded = jwtDecode(token);
-
+      const {data} = await axiosClient.get("/auth/me");
       setUser({
         loggedIn: true,
-        token,
-        role: decoded.role
+        email: data.email,
+        role: data.role
       });
 
     } catch (error) {
+      setUser(null);
       console.error("Invalid login token");
     }
   };
 
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+  const logout = async() => {
+    await axiosClient.post("/auth/logout");
     setUser(null);
     navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loding }}>
       {children}
     </AuthContext.Provider>
   );
