@@ -1,11 +1,9 @@
 import { toast } from "react-toastify";
 
-export const canBookService = (navigate, targetUrl) => {
-  const accessToken = localStorage.getItem("accessToken");
+export const canBookService = (user, navigate, targetUrl) => {
 
-  if (!accessToken) {
+  if (!user) {
     toast("Please login first to book a service");
-    // console.log("BOOKING TOKEN:", localStorage.getItem("accessToken"));
     return;
   }
 

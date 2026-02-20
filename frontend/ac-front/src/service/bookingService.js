@@ -9,8 +9,6 @@ export const createBooking = async (bookingData) => {
 };
 
 export const getMyBookings = async () => {
-  const token = localStorage.getItem("accessToken");
-
   const response = await axiosClient.get(
     `/bookings/my-bookings`
   );
