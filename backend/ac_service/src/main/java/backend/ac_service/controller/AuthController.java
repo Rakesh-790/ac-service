@@ -1,7 +1,11 @@
 package backend.ac_service.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +40,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody AuthRequest request, HttpServletResponse response) {
-        // return ResponseEntity.ok(authService.login(request));
         var authResponse = authService.login(request);
 
         Cookie accessTokenCookie = new Cookie("accessToken", authResponse.accessToken());
@@ -57,29 +60,13 @@ public class AuthController {
         return ResponseEntity.ok("Login successful");
     }
 
-    // @PostMapping("/refresh")
-    // public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest request) {
-    //     String refreshToken = request.refreshToken(); 
-
-    //     if (jwtUtils.validateToken(refreshToken, jwtUtils.getUsername(refreshToken))) {
-    //         User user = userRepository.findByUserEmail(jwtUtils.getUsername(refreshToken))
-    //                 .orElseThrow();
-    //         String newAccessToken = jwtUtils.generateAccessToken(user, user.getRole().toString());
-    //         String newRefreshToken = jwtUtils.generateRefreshToken(user); // optional rotation
-
-    //         return ResponseEntity.ok(new AuthResponse(newAccessToken, newRefreshToken));
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    //     }
-    // }
-
     @PostMapping("/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = null;
 
         if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()){
-                if ("refreshToken". equals(cookie.getName())) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("refreshToken".equals(cookie.getName())) {
                     refreshToken = cookie.getValue();
                     break;
                 }
@@ -90,15 +77,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token not found");
         }
 
-        if(jwtUtils.validateToken(refreshToken, jwtUtils.getUsername(refreshToken))){
+        if (jwtUtils.validateToken(refreshToken, jwtUtils.getUsername(refreshToken))) {
             User user = userRepository.findByUserEmail(jwtUtils.getUsername(refreshToken)).orElseThrow();
 
             String newAccessToken = jwtUtils.generateAccessToken(user, user.getRole().toString());
-            String newRefreshToken = jwtUtils.generateRefreshToken(user); 
+            String newRefreshToken = jwtUtils.generateRefreshToken(user);
 
             Cookie accessTokenCookie = new Cookie("accessToken", newAccessToken);
             accessTokenCookie.setHttpOnly(true);
-            accessTokenCookie.setSecure(false); //  TRUE in production
+            accessTokenCookie.setSecure(false); // TRUE in production
             accessTokenCookie.setPath("/");
             accessTokenCookie.setMaxAge(60 * 15);
 
@@ -117,24 +104,42 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
     }
 
-        @PostMapping("/logout")
-        public ResponseEntity<String> logout(HttpServletResponse response){
-            Cookie accessTokenCookie = new Cookie("accessToken", null);
-            accessTokenCookie.setHttpOnly(true);
-            accessTokenCookie.setSecure(false); // TRUE in production
-            accessTokenCookie.setPath("/");
-            accessTokenCookie.setMaxAge(0);
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setSecure(false); // TRUE in production
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(0);
 
-            Cookie refreshTokenCookie = new Cookie("refreshToken", null);
-            refreshTokenCookie.setHttpOnly(true);
-            refreshTokenCookie.setSecure(false);
-            refreshTokenCookie.setPath("/");
-            refreshTokenCookie.setMaxAge(0);
+        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
 
-            response.addCookie(accessTokenCookie);
-            response.addCookie(refreshTokenCookie);
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
-            return ResponseEntity.ok("Logged out successfully");
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
+    // Endpoint to confirm login and get user info
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "email", authentication.getName(),
+                        "role", authentication.getAuthorities()
+                                .stream()
+                                .findFirst()
+                                .map(a -> a.getAuthority())
+                                .orElse("")));
+    }
 
 }
