@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/bookings/create-booking").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/bookings/my-bookings").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/bookings/my-bookings").authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/bookings/all-bookings").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/bookings/admin/**").hasRole("ADMIN")
