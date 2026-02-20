@@ -20,10 +20,6 @@ const Register = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setAccessToken(null);
-
     try {
       const response = await registerUser(data);
       if (response.status >= 200 && response.status < 300) {

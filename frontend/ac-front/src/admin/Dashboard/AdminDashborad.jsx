@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
 import { jwtDecode } from "jwt-decode";
+import axiosClient from "../../service/axiosClient";
 
 const AdminDashboard = () => {
   const [bookings, setBookings] = useState([]);
@@ -13,80 +14,35 @@ const AdminDashboard = () => {
 
   // 🔐 Protect Admin Route
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if (!token) {
-      navigate("/");
-      return;
-    }
-
-    try {
-      const decoded = jwtDecode(token);
-      if (decoded.role !== "ROLE_ADMIN") {
-        navigate("/");
-      }
-    } catch {
-      navigate("/");
-    }
-  }, [navigate]);
-
-  // 📦 Fetch All Bookings
-  useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-
-        const response = await fetch(`${API_URL}/bookings/all-bookings`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await response.json();
-        setBookings(data);
-      } catch (error) {
+        const response = await axiosClient.get("/bookings/all-bookings");
+        setBookings(response.data);
+      }
+      catch (error) {
         console.error("Error fetching bookings:", error);
-      } finally {
+      }
+      finally {
         setLoading(false);
       }
-    };
 
-    fetchBookings();
+      fetchBookings();
+    }
   }, []);
+
 
   // 🔄 Update Booking Status
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
-      const token = localStorage.getItem("accessToken");
-
-      console.log(bookings)
-      await fetch(
-        `${API_URL}/bookings/admin/${bookingId}/status?status=${newStatus}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        }
-      );
-
-
+      await axiosClient.patch(`/bookings/admin/${bookingId}/status?status=${newStatus}`);
 
       setBookings(prevBookings => {
-        if (!bookingId) {
-          console.error("Booking ID is undefined");
-          return;
-        }
-        
-        // If status becomes COMPLETED → remove it
         if (newStatus === "COMPLETED") {
           return prevBookings.filter(
             booking => booking.bookingId !== bookingId
           );
         }
 
-        // Otherwise just update status normally
         return prevBookings.map(booking => {
           if (booking.bookingId === bookingId) {
             return { ...booking, status: newStatus };
@@ -94,7 +50,6 @@ const AdminDashboard = () => {
           return booking;
         });
       });
-
     } catch (error) {
       console.error("Error updating status:", error);
     }

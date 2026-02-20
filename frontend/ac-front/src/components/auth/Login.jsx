@@ -23,22 +23,11 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setAccessToken(null);
-
     try {
       const response = await login(data);
 
       if (response.status === 201 || response.status === 200) {
-        const accessToken = response.data.accessToken || response.data.token;
-
-        // setAccessToken(accessToken);
-        authLogin(accessToken);
-
-        const decoded = jwtDecode(accessToken);
-        const role = decoded.role || "USER";
-
+        await authLogin();
         toast.success("Login successful");
         navigate("/");
       } else {

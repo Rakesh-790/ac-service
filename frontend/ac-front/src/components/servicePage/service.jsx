@@ -38,12 +38,6 @@ function Service() {
     const prevStep = () => setStep(step - 1);
 
     const handlePlaceBooking = async () => {
-        const token = localStorage.getItem("token");
-        // if (!token) {
-        //     toast.info("Please login first");
-        //     navigate("/login");
-        //     return;
-        // }
 
         try {
             await createBooking(formData);

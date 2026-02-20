@@ -33,7 +33,7 @@ function Header() {
                     </a>
                     <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-4">
                         <Link to='/' className="mr-5 hover:text-blue-300">Home</Link>
-                        {localStorage.getItem("accessToken") && (
+                        {user && (
                             <Link to="/my-bookings">My Bookings</Link>
                         )}
                         <Link to='/about' className="mr-5 hover:text-blue-300">About</Link>
