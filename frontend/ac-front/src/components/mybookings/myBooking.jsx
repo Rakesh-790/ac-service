@@ -19,11 +19,9 @@ function MyBookings() {
 
   if (bookings.length === 0) {
     return <div className="flex flex-col h-full">
-      {bookings.length === 0(
         <div className="flex flex-1 items-center justify-center">
           <p className="text-2xl">No bookings found</p>
         </div>
-      )}
     </div>
   };
 

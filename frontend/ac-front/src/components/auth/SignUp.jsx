@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./auth.css";
 import { registerUser } from "../../service/authService";
-import { setAccessToken } from "../../service/axiosClient";
-
 const Register = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({

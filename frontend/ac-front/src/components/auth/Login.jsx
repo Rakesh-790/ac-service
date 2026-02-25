@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import "./auth.css";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../service/authService";
-import { setAccessToken } from "../../service/axiosClient";
 import { useAuth } from "../../context/AuthContext";
 
 

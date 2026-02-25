@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { canBookService } from "../../service/canBook";
+import { useAuth } from "../../context/AuthContext";
 
 
 export function View() {
 
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const services = [
         {
@@ -60,6 +62,7 @@ export function View() {
                             <button
                                 onClick={() =>
                                     canBookService(
+                                        user,
                                         navigate,
                                         `/service?cleaningType=${service.id}`
                                     )

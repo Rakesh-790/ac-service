@@ -26,8 +26,8 @@ const AdminDashboard = () => {
         setLoading(false);
       }
 
-      fetchBookings();
     }
+    fetchBookings();
   }, []);
 
 

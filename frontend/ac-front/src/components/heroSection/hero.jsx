@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { canBookService } from "../../service/canBook";
 import heroImage from '../../assets/photos/heroImage.jpeg';
+import { useAuth } from "../../context/AuthContext";
 
 
 function Hero() {
     const navigate = useNavigate();
+    const { user } = useAuth();
     return (
         <>
             <section className="grid grid-cols-2 gap-12 px-16 py-16 bg-slate-50">
@@ -21,7 +23,7 @@ function Hero() {
                     <div className="flex gap-4">
                         <button
                             onClick={() =>
-                                canBookService(navigate, "/service")
+                                canBookService(user, navigate, "/service")
                             }
                             className="bg-sky-400 text-white px-8 py-4 rounded-lg hover:bg-sky-500 transition-colors font-medium"
                         >
