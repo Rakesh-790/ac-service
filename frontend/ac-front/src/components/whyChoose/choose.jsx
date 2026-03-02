@@ -1,11 +1,45 @@
 import verified from '../../assets/photos/verified.jpg';
 import price from '../../assets/photos/price.png';
 import ontime from '../../assets/photos/ontime.png';
+import lg from '../../assets/photos/lg1.png';
+import samsung from '../../assets/photos/samsung1.png';
+import carrier from '../../assets/photos/carrier.png';
+import hitachi from '../../assets/photos/hitachi1.png';
+import bluestar from '../../assets/photos/bluestar1.png';
+import daikin from '../../assets/photos/daikin1.png';
 
 function Choose() {
+    const brands = [
+        lg,
+        samsung,
+        carrier,
+        hitachi,
+        bluestar,
+        daikin
+    ];
     return (
         <>
             <section className="py-20 px-16 sm:px-8 lg:px-16 bg-white">
+                <section className="py-7 bg-white overflow-hidden relative">
+
+                    {/* Fade edges */}
+                    <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-bl from-white via-transparent to-white ">
+                    </div>
+
+                    <div className="flex gap-16 animate-scroll w-max">
+
+                        {[...brands, ...brands].map((logo, i) => (
+                            <div key={i} className="w-48 h-20 flex items-center justify-center">
+                                <img
+                                    src={logo}
+                                    className="max-h-14 object-contain opacity-90 hover:opacity-100 transition duration-300"
+                                    alt="brand"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 <div className="text-center mb-16">
                     <h2 className="text-5xl font-bold text-gray-900 mb-4">Why Choose Us</h2>
                     <p className="text-gray-500 text-lg max-w-2xl mx-auto">
