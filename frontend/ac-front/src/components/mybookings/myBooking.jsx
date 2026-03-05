@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BookingStatusTracker from "../booking/BookingStatusTraker";
-import { getMyBookings } from "../../service/bookingService";
+import { cancelBooking, getMyBookings } from "../../service/bookingService";
+import { toast } from "react-toastify"
 
 
 function MyBookings() {
@@ -19,10 +20,30 @@ function MyBookings() {
 
   if (bookings.length === 0) {
     return <div className="flex flex-col h-full">
-        <div className="flex flex-1 items-center justify-center">
-          <p className="text-2xl">No bookings found</p>
-        </div>
+      <div className="flex flex-1 items-center justify-center">
+        <p className="text-2xl">No bookings found</p>
+      </div>
     </div>
+  };
+
+  const handleCancel = async (bookingId) => {
+    try {
+      await cancelBooking(bookingId);
+
+      setBookings(prev =>
+        prev.map(b =>
+          b.bookingId === bookingId
+            ? { ...b, status: "CANCELLED" }
+            : b
+        )
+      );
+
+      toast.success("Service cancelled successfully");
+
+    } catch (error) {
+      console.error(error);
+      toast.error("Error cancelling booking");
+    }
   };
 
   return (
@@ -39,6 +60,14 @@ function MyBookings() {
           <p><b>Date:</b> {booking.date}</p>
           <p><b>Time:</b> {booking.time}</p>
           <BookingStatusTracker booking={booking} />
+          {booking.status !== "CANCELLED" && booking.status !== "COMPLETED" && (
+            <button
+              className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={() => handleCancel(booking.bookingId)}
+            >
+              Cancel Booking
+            </button>
+          )}
         </div>
       ))}
     </div>

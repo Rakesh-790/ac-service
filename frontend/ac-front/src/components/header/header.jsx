@@ -5,7 +5,7 @@ import profilePic from "../../assets/photos/profile.png";
 
 
 function Header() {
-    const { user, logout } = useAuth();
+    const {user, logout } = useAuth();
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);

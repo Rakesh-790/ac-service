@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +49,13 @@ public class BookingController {
 
         bookingService.createBooking(request, authentication.getName());
         return new ResponseEntity<>("Booking created successfully", HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/cancel-booking/{bookingId}")
+    public ResponseEntity<String> cancelBooking(@PathVariable String bookingId, Authentication authentication) {
+
+        bookingService.cancelBooking(bookingId, authentication.getName());
+        return ResponseEntity.ok("Booking cancelled");
     }
 
     @PatchMapping("/admin/{bookingId}/status")

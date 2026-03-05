@@ -15,3 +15,11 @@ export const getMyBookings = async () => {
 
   return response.data;
 };
+
+export const cancelBooking = async (bookingId) => {
+  const response = await axiosClient.delete(
+    `/bookings/cancel-booking/${bookingId}`, {
+    withCredentials: true
+  });
+  return response.data;
+};

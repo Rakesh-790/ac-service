@@ -12,11 +12,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const data = await axiosClient.get("/auth/me");
+        const response = await axiosClient.get("/auth/me");
         setUser({
           loggedIn: true,
-          email: data.email,
-          role: data.role
+          email: response.data.email,
+          role: response.data.role
         });
 
       } catch (error) {

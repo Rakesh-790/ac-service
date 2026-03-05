@@ -28,3 +28,10 @@ export const logout = async () => {
     }
   );
 };
+
+export const getCurrentUser = async () => {
+  const response = await axiosClient.get(`${API}/me`, {
+    withCredentials: true
+  });
+  return response.data;
+};

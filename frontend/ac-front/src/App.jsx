@@ -11,6 +11,7 @@ import MyBookings from './components/mybookings/myBooking.jsx'
 
 
 function App() {
+  
   return (
     <>
       <div className="h-screen flex flex-col overflow-hidden">
@@ -24,7 +25,7 @@ function App() {
           pauseOnHover
         />
 
-        <Headers />
+        <Headers/>
 
         <main className="grow overflow-y-auto">
           <Routes>

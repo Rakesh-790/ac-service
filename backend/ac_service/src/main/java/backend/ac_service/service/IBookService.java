@@ -11,4 +11,6 @@ public interface IBookService {
     void createBooking(BookingRequest request, String email);
 
     List<BookingResponse> getAllBookings();
+
+    void cancelBooking(String bookingId, String email);
 }

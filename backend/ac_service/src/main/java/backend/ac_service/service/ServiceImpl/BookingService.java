@@ -2,7 +2,10 @@ package backend.ac_service.service.ServiceImpl;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.ac_service.Repository.BookingRepository;
 import backend.ac_service.Repository.UserRepository;
@@ -79,4 +82,34 @@ public class BookingService implements IBookService {
                 "Your booking status changed to " + status);
     }
 
+    @Transactional
+    @Override
+    public void cancelBooking(String bookingId, String email) {
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found"));
+
+        if (!booking.getUser().getUserEmail().equals(email)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized to Cancel the booking");
+        }
+
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new RuntimeException("Booking already cancelled");
+        }
+
+        booking.setStatus(BookingStatus.CANCELLED);
+        
+        Booking savedBooking = bookingRepository.save(booking);
+
+        BookingResponse dto = BookingResponse.fromEntity(savedBooking);
+
+        // 🔴 Send update to the specific user booking page
+        bookingStatusPublisher.sendBookingUpdate(
+                savedBooking.getBookingId(),
+                BookingStatus.CANCELLED,
+                "Booking cancelled by user");
+
+        // 🔴 Notify admin dashboard
+        bookingStatusPublisher.notifyAdmin(dto);
+    }
 }

@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
-import { jwtDecode } from "jwt-decode";
 import axiosClient from "../../service/axiosClient";
 
 const AdminDashboard = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const API_URL = "http://localhost:1200";
 
@@ -154,6 +151,7 @@ const AdminDashboard = () => {
                     <td className="p-2">
                       <select
                         value={booking.status}
+                        disabled={booking.status === "CANCELLED"}
                         onChange={(e) =>
                           handleStatusChange(booking.bookingId, e.target.value)
                         }
